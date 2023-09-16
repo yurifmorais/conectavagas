@@ -1,4 +1,5 @@
 package conecta.vagas.api.domain.company;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -47,39 +48,51 @@ public class Company {
     public Long getID() {
         return ID;
     }
+
     public String getCnpj() {
         return cnpj;
     }
+
     public void setCnpj(String newCnpj) {
         this.cnpj = newCnpj;
     }
+
     public String getNomeFantasia() {
         return nomeFantasia;
     }
+
     public void setNomeFantasia(String newNomeFantasia) {
         this.nomeFantasia = newNomeFantasia;
     }
+
     public Integer getSituacaoCadastral() {
         return situacaoCadastral;
     }
+
     public void setSituacaoCadastral(Integer newSituacaoCadastral) {
         this.situacaoCadastral = newSituacaoCadastral;
     }
+
     public String getCnae() {
         return cnae;
     }
+
     public void setCnae(String newCnae) {
         this.cnae = newCnae;
     }
+
     public String getUf() {
         return uf;
     }
+
     public void setUf(String newUf) {
         this.uf = newUf;
     }
+
     public Integer getMunicipio() {
         return municipio;
     }
+
     public void setMunicipio(Integer newMunicipio) {
         this.municipio = newMunicipio;
     }

@@ -2,7 +2,6 @@ package conecta.vagas.api.domain.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.UniqueElements;
 
 public record UserDataRegister(
         @NotBlank
@@ -13,5 +12,5 @@ public record UserDataRegister(
         @NotBlank
         String password,
         boolean is_company
-){
+) {
 }

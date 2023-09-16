@@ -1,17 +1,16 @@
 package conecta.vagas.api.domain.user;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Table(name = "users")
 @Entity(name = "User")
@@ -64,6 +63,10 @@ public class User implements UserDetails {
         return email;
     }
 
+    public Boolean getIs_company() {
+        return is_company;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -81,6 +84,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

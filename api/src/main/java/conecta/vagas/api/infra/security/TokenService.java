@@ -19,7 +19,7 @@ public class TokenService {
     private String secret;
     private static final String ISSUER = "API Conecta.vagas";
 
-    public String gerarToken(User user){
+    public String generateToken(User user){
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
