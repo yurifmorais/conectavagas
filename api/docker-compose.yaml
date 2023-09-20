@@ -15,8 +15,6 @@ services:
       - 127.0.0.1:${DB_PORT}:3306
     volumes:
       - conecta_vagas_db:/var/lib/mysql
-    networks:
-      - conecta_vagas_network
 
   api:
     container_name: conecta-vagas-api
@@ -25,16 +23,11 @@ services:
       - .env
     environment:
       DB_URL: jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false&requireSSL=false
+      SPRING_PROFILES_ACTIVE: ${APP_ENV}
     ports:
       - 127.0.0.1:${API_PORT}:${API_PORT}
     depends_on:
       - db
-    networks:
-      - conecta_vagas_network
 
 volumes:
   conecta_vagas_db:
-
-networks:
-  conecta_vagas_network:
-    name: conecta_vagas_shared_network
