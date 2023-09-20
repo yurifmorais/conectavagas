@@ -1,4 +1,4 @@
-CREATE TABLE jobvacancy (
+CREATE TABLE IF NOT EXISTS job_vacancies (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(100),
     description TEXT,
