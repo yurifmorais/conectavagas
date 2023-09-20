@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "ID")//pk
 
 @Entity
-@Table(name = "jobvacancy")
+@Table(name = "job_vacancies")
 public class JobV {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
