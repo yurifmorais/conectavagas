@@ -1,6 +1,8 @@
 package conecta.vagas.api.controller;
-
-import conecta.vagas.api.domain.jobVacancy.*;
+import conecta.vagas.api.domain.jobVacancy.JobV;
+import conecta.vagas.api.domain.jobVacancy.JobVDataRegister;
+import conecta.vagas.api.domain.jobVacancy.JobVListingData;
+import conecta.vagas.api.domain.jobVacancy.JobVRepository;
 import conecta.vagas.api.domain.user.User;
 import conecta.vagas.api.domain.user.UserRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -17,10 +19,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/myvacancies") //mudei aqui!
+@RequestMapping("/vacancies") //mudei aqui!
 @SecurityRequirement(name = "bearer-key")
-@PreAuthorize("hasRole('ROLE_COMPANY')")
-public class JobVController {
+@PreAuthorize("hasRole('ROLE_USER')")
+public class PublicJobVController {
 
     @Autowired
     JobVRepository jobVRepository;
@@ -45,26 +47,6 @@ public class JobVController {
 
             var uri = uriBuilder.path("/jobvacancy/{ID}").buildAndExpand(jobV.getID()).toUri();
             return ResponseEntity.created(uri).body(new JobVListingData(jobV));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    @PutMapping
-    @Transactional
-    public ResponseEntity updateJobV(@RequestBody @Valid JobVDataUpdate dto, UriComponentsBuilder uriBuilder) {
-        var jobV = jobVRepository.getReferenceById(dto.id());
-        jobV.updateData(dto);
-        return ResponseEntity.ok(new JobVListingData(jobV));
-    }
-
-
-    @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity deleteJobV(@PathVariable Long id) {
-        Optional<JobV> jobVOptional = jobVRepository.findById(id);
-        if (jobVOptional.isPresent()) {
-            jobVRepository.deleteById(id);
-            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }

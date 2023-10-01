@@ -2,6 +2,8 @@ package conecta.vagas.api.domain.jobVacancy;
 
 import conecta.vagas.api.domain.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -151,6 +153,24 @@ public class JobV {
         this.user = user;
         if (user != null) {
             user.getJobVs().add(this);
+        }
+    }
+
+    public void updateData(JobVDataUpdate dto) {
+        if(dto.id() != null) {
+            this.ID = dto.id();
+        }
+        if(dto.title() != null) {
+            this.title = dto.title();
+        }
+        if(dto.description() != null) {
+            this.description = dto.description();
+        }
+        if (dto.location() != null){
+            this.location = dto.location();
+        }
+        if(dto.salary() != null) {
+            this.salary = dto.salary();
         }
     }
 }
