@@ -57,6 +57,12 @@ public class JobVController {
         return ResponseEntity.ok(new JobVListingData(jobV));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity datail(@PathVariable Long id) {
+        var jobV = jobVRepository.getReferenceById(id);
+        return ResponseEntity.ok(new JobVListingData(jobV));
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity deleteJobV(@PathVariable Long id) {
