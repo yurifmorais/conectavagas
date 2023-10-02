@@ -34,14 +34,14 @@ public abstract class User implements UserDetails {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<JobV> jobVs = new HashSet<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<JobV> jobVs = new HashSet<>();
 
     public User(UserDataRegister userDataRegister) {
         this.name = userDataRegister.getName();
         this.email = userDataRegister.getEmail();
         this.password = userDataRegister.getPassword();
-        this.jobVs = new HashSet<>();
+        //this.jobVs = new HashSet<>();
     }
 
     //true se e empresa, false se e pessoa
@@ -103,10 +103,10 @@ public abstract class User implements UserDetails {
     }
     // Adicionado setter para jobVs
 
-    public void setJobVs(Set<JobV> jobVs) {
-        this.jobVs.clear();
-        if (jobVs != null) {
-            this.jobVs.addAll(jobVs);
-        }
-    }
+//    public void setJobVs(Set<JobV> jobVs) {
+//        this.jobVs.clear();
+//        if (jobVs != null) {
+//            this.jobVs.addAll(jobVs);
+//        }
+//    }
 }

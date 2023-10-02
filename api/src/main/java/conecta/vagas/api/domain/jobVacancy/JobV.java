@@ -1,15 +1,16 @@
 package conecta.vagas.api.domain.jobVacancy;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import conecta.vagas.api.domain.Application.Application;
+import conecta.vagas.api.domain.person.Person;
 import conecta.vagas.api.domain.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -57,19 +58,8 @@ public class JobV {
     @Column(name = "filters")
     private Filters filters;
 
-//    public JobV(JobVDataRegister jobVDataRegister) {
-//        this.title = jobVDataRegister.title();
-//        this.description = jobVDataRegister.description();
-//        this.location = jobVDataRegister.location();
-//        this.filters = jobVDataRegister.filters();
-//        this.salary = jobVDataRegister.salary();
-//        this.postDate = jobVDataRegister.postDate();
-//        this.endDate = jobVDataRegister.endDate();
-//        this.internshipType = jobVDataRegister.internshipType();
-//        this.requirements = jobVDataRegister.requirements();
-//        this.benefits = jobVDataRegister.benefits();
-//        this.user = jobVDataRegister.user(); // Adicionado
-//    }
+    @OneToMany(mappedBy = "jobV")
+    private Set<Application> applications;
 
     public JobV(JobVDataRegister dto, User user) {
         this.title = dto.title();
@@ -83,8 +73,10 @@ public class JobV {
         this.requirements = dto.requirements();
         this.benefits = dto.benefits();
         this.user = user;
+//        if (user != null) {
+//            user.getJobVs().add(this);
+//        }
     }
-
 
     public Long getID() {
         return ID;
@@ -114,8 +106,6 @@ public class JobV {
     public String getFilters() {
         return filters.toString();
     }
-
-    // Adicionado setters para os outros campos
 
     public void setLocation(String location) {
         this.location = location;
@@ -151,9 +141,9 @@ public class JobV {
 
     public void setUser(User user) {
         this.user = user;
-        if (user != null) {
-            user.getJobVs().add(this);
-        }
+//        if (user != null) {
+//            user.getJobVs().add(this);
+//        }
     }
 
     public void updateData(JobVDataUpdate dto) {

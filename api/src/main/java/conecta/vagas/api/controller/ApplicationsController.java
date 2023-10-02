@@ -1,0 +1,87 @@
+package conecta.vagas.api.controller;
+
+import conecta.vagas.api.domain.user.User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import conecta.vagas.api.domain.Application.Application;
+import conecta.vagas.api.domain.Application.ApplicationData;
+import conecta.vagas.api.domain.Application.ApplicationRepository;
+import conecta.vagas.api.domain.jobVacancy.JobV;
+import conecta.vagas.api.domain.jobVacancy.JobVRepository;
+import conecta.vagas.api.domain.person.Person;
+import conecta.vagas.api.domain.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
+
+@RestController
+@RequestMapping("/apply")
+@PreAuthorize("hasRole('USER')")
+public class ApplicationsController {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JobVRepository jobVRepository;
+
+    @Autowired
+    private ApplicationRepository applicationRepository;
+
+    @PostMapping
+    @Transactional
+    public ResponseEntity<?> apply(@RequestBody ApplicationData applicationData) {
+        return userRepository.findById(applicationData.personID())
+                .map(user -> {
+                    if (!(user instanceof Person)) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Somente pessoas podem se candidatar a vagas");
+                    }
+                    Person person = (Person) user;
+                    JobV jobV = jobVRepository.findById(applicationData.jobID())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vaga não encontrada"));
+                    Application application = new Application();
+                    application.setPerson(person);
+                    application.setJobV(jobV);
+                    application.setApplicationDate(new Date());
+                    applicationRepository.save(application);
+                    return ResponseEntity.ok().build();
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+    }
+
+    //    @GetMapping
+//    public ResponseEntity<?> getApplications(@AuthenticationPrincipal UserDetails userDetails) {
+//        String email = userDetails.getUsername();
+//        User user = (User) userRepository.findByEmail(email);
+//
+//        if (user instanceof Person) {
+//            Person person = (Person) user;
+//            Set<Application> applications = person.getApplications();
+//            return ResponseEntity.ok(applications);
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Somente pessoas podem ver suas candidaturas");
+//        }
+//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Set<Application>> getCandidateApplications(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    if (!(user instanceof Person)) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Somente pessoas podem se candidatar a vagas");
+                    }
+                    Person person = (Person) user;
+                    Set<Application> applications = applicationRepository.findByPerson(person);
+                    return ResponseEntity.ok(applications);
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+    }
+}

@@ -57,7 +57,6 @@ public class JobVController {
         return ResponseEntity.ok(new JobVListingData(jobV));
     }
 
-
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity deleteJobV(@PathVariable Long id) {
