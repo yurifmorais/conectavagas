@@ -40,9 +40,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST, "/login", "/register").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/companies", "/vacancies").permitAll();//excluir dps
-                    req.requestMatchers(HttpMethod.GET, "/companies", "/vacancies").permitAll();//excluir dps
+                    req.requestMatchers(HttpMethod.POST, "/login", "/registerCompany", "/registerPerson").permitAll();
                     req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
                 })

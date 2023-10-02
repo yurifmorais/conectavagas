@@ -1,19 +1,16 @@
 package conecta.vagas.api.domain.company;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import conecta.vagas.api.domain.user.UserDataRegister;
 
-public record CompanyDataRegister(
-        @NotBlank
-        String cnpj,
-        @NotBlank
-        String nomeFantasia,
-        @NotNull
-        Integer situacaoCadastral,
-        @NotBlank
-        String cnae,
-        @NotBlank
-        String uf,
-        @NotNull
-        Integer municipio) {
+public class CompanyDataRegister extends UserDataRegister {
+    public String cnpj;
+    public String city;
+
+    public String getCnpj() {
+        return cnpj;
+    }
+    public String getCity() {
+        return city;
+    }
 }
+
