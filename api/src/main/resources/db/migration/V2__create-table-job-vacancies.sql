@@ -11,5 +11,5 @@ CREATE TABLE JOB_VACANCIES (
     internship_type VARCHAR(50),
     requirements TEXT,
     benefits TEXT,
-    FOREIGN KEY (user_id) REFERENCES users(ID)
+    FOREIGN KEY (user_id) REFERENCES USERS(ID)
 );
