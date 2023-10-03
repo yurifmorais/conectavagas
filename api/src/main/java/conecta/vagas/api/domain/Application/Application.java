@@ -36,7 +36,5 @@ public class Application {
 
     @Column(name = "application_date")
     private Date applicationDate;
-
-    //POSSO ADICIONAR MAIS COISAS SE EU ACHAR NECESSARIO.
 }
 
