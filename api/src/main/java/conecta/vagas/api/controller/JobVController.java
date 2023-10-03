@@ -59,7 +59,6 @@ public class JobVController {
         return ResponseEntity.ok(new JobVListingData(jobV));
     }
 
-    @PreAuthorize("hasRole('ROLE_COMPANY')")
     @GetMapping("/{id}")
     public ResponseEntity datail(@PathVariable Long id) {
         var jobV = jobVRepository.getReferenceById(id);
