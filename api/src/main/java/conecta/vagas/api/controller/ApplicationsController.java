@@ -62,7 +62,6 @@ public class ApplicationsController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
-    //@GetMapping("/{id}")
     @GetMapping
     public ResponseEntity<?> getApplications(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
         String email = userDetails.getUsername();
@@ -84,5 +83,29 @@ public class ApplicationsController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Somente pessoas podem ver suas candidaturas");
         }
     }
+
+    @DeleteMapping("/{applicationId}")
+    @Transactional
+    public ResponseEntity<?> deleteApplication(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @PathVariable Long applicationId) {
+        String email = userDetails.getUsername();
+        User user = (User) userRepository.findByEmail(email);
+
+        if (user instanceof Person) {
+            Person person = (Person) user;
+            if (!Objects.equals(person.getID(), id)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você só pode excluir suas próprias candidaturas");
+            }
+            Application application = applicationRepository.findById(applicationId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidatura não encontrada"));
+            if (!Objects.equals(application.getPerson().getID(), id)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você só pode excluir suas próprias candidaturas");
+            }
+            applicationRepository.delete(application);
+            return ResponseEntity.ok().build();
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Somente pessoas podem excluir suas candidaturas");
+        }
+    }
+
 
 }

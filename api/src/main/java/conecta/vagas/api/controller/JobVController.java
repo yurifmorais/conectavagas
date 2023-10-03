@@ -19,7 +19,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/myvacancies") //mudei aqui!
 @SecurityRequirement(name = "bearer-key")
-@PreAuthorize("hasRole('ROLE_COMPANY')")
+//@PreAuthorize("hasRole('ROLE_COMPANY')")
 public class JobVController {
 
     @Autowired
@@ -33,6 +33,7 @@ public class JobVController {
         return ResponseEntity.ok(page);
     }
 
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
     @PostMapping
     @Transactional
     public ResponseEntity addJobV(@RequestBody @Valid JobVDataRegister dto, UriComponentsBuilder uriBuilder) {
@@ -49,6 +50,7 @@ public class JobVController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
     @PutMapping
     @Transactional
     public ResponseEntity updateJobV(@RequestBody @Valid JobVDataUpdate dto, UriComponentsBuilder uriBuilder) {
@@ -57,12 +59,14 @@ public class JobVController {
         return ResponseEntity.ok(new JobVListingData(jobV));
     }
 
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
     @GetMapping("/{id}")
     public ResponseEntity datail(@PathVariable Long id) {
         var jobV = jobVRepository.getReferenceById(id);
         return ResponseEntity.ok(new JobVListingData(jobV));
     }
 
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity deleteJobV(@PathVariable Long id) {
