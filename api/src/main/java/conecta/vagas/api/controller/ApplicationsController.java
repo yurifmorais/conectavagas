@@ -95,17 +95,16 @@ public class ApplicationsController {
             if (!Objects.equals(person.getID(), id)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você só pode excluir suas próprias candidaturas");
             }
-            Application application = applicationRepository.findById(applicationId)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidatura não encontrada"));
-            if (!Objects.equals(application.getPerson().getID(), id)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você só pode excluir suas próprias candidaturas");
+            Optional<Application> application = applicationRepository.findById(applicationId);
+            if (application.isPresent() && Objects.equals(application.get().getPerson().getID(), id)) {
+                applicationRepository.delete(application.get());
+                return ResponseEntity.ok().build();
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidatura não encontrada");
             }
-            applicationRepository.delete(application);
-            return ResponseEntity.ok().build();
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Somente pessoas podem excluir suas candidaturas");
         }
     }
-
 
 }

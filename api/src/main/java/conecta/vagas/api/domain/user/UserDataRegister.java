@@ -1,4 +1,5 @@
 package conecta.vagas.api.domain.user;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 
 public class UserDataRegister {
@@ -23,3 +24,4 @@ public class UserDataRegister {
                 return user_type;
         }
 }
+

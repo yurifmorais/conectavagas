@@ -33,7 +33,6 @@ public class Application {
     @JoinColumn(name = "job_vacancy_id")
     private JobV jobV;
 
-
     @Column(name = "application_date")
     private Date applicationDate;
 }

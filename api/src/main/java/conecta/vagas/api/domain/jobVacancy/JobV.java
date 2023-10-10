@@ -58,8 +58,12 @@ public class JobV {
     @Column(name = "filters")
     private Filters filters;
 
-    @OneToMany(mappedBy = "jobV")
+//    @OneToMany(mappedBy = "jobV")
+//    private Set<Application> applications;
+
+    @OneToMany(mappedBy = "jobV", cascade = CascadeType.ALL)
     private Set<Application> applications;
+
 
     public JobV(JobVDataRegister dto, User user) {
         this.title = dto.title();

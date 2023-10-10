@@ -17,4 +17,5 @@ public record JobVListingData(Long ID, String title, String description, String 
                 jobV.getUser().getID()
         );
     }
+
 }

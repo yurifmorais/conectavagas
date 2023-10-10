@@ -23,6 +23,7 @@ import java.util.Set;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type")
+
 public abstract class User implements UserDetails {
 
     @Id
@@ -31,9 +32,6 @@ public abstract class User implements UserDetails {
     private String name;
     private String email;
     private String password;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<JobV> jobVs = new HashSet<>();
 
     public User(UserDataRegister userDataRegister) {
         this.name = userDataRegister.getName();
