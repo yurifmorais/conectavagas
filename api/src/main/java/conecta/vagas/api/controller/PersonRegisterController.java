@@ -1,7 +1,6 @@
 package conecta.vagas.api.controller;
-
-import conecta.vagas.api.domain.user.User;
-import conecta.vagas.api.domain.user.UserDataRegister;
+import conecta.vagas.api.domain.person.Person;
+import conecta.vagas.api.domain.person.PersonDataRegister;
 import conecta.vagas.api.domain.user.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/register")
-public class RegisterController {
+@RequestMapping("/registerPerson")
+public class PersonRegisterController {
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -25,9 +24,9 @@ public class RegisterController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity register(@RequestBody @Valid UserDataRegister data) {
-        var user = new User(data);
-        var encodedPassword = passwordEncoder().encode(data.password());
+    public ResponseEntity register(@RequestBody @Valid PersonDataRegister data) {
+        var user = new Person(data);
+        var encodedPassword = passwordEncoder().encode(data.getPassword());
 
         user.setPassword(encodedPassword);
         userRepository.save(user);

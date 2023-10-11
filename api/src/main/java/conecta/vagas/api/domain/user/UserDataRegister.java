@@ -1,16 +1,27 @@
 package conecta.vagas.api.domain.user;
-
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
-public record UserDataRegister(
-        @NotBlank
-        String name,
-        @NotBlank
+public class UserDataRegister {
+        public String name;
         @Email
-        String email,
-        @NotBlank
-        String password,
-        boolean is_company
-) {
+        public String email;
+        public String password;
+        public boolean user_type;
+
+        public UserDataRegister() {
+        }
+        public String getName() {
+                return name;
+        }
+        public String getEmail() {
+                return email;
+        }
+        public String getPassword() {
+                return password;
+        }
+        public Boolean getUser_type() {
+                return user_type;
+        }
 }
+

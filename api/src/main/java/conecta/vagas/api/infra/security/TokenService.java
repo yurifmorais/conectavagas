@@ -25,7 +25,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(user.getEmail())
-                    .withClaim("id", user.getId()) //posso passar varios valores aqui. chave - valor
+                    .withClaim("id", user.getID()) //posso passar varios valores aqui. chave - valor
                     .withExpiresAt(dataExpiracao()) // tempo de duracao do token
                     .sign(algoritmo);
         } catch (JWTCreationException exception){

@@ -34,8 +34,8 @@ public class AuthenticationController {
             var token = tokenService.generateToken((User) authentication.getPrincipal());
 
             User user = (User) userRepository.findByEmail(data.email());
-
-            return ResponseEntity.ok(new TokenData(user.getId(), user.getEmail(), user.getName(), user.getIs_company(), token));
+            //true se e empresa, false se e pessoa
+            return ResponseEntity.ok(new TokenData(user.getID(), user.getEmail(), user.getName(), user.getUserType(), token));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
