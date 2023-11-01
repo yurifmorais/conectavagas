@@ -24,8 +24,4 @@ public class Tag {
     @OneToOne
     @JoinColumn(name = "parent_id")
     private Tag parent;
-
-    public Tag(Long id){
-        ID = id;
-    }
 }

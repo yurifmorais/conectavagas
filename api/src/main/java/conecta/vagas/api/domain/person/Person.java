@@ -2,6 +2,7 @@ package conecta.vagas.api.domain.person;
 import conecta.vagas.api.domain.Application.Application;
 import conecta.vagas.api.domain.tag.Tag;
 import conecta.vagas.api.domain.user.User;
+import conecta.vagas.api.domain.userVacancyNotification.UserVacancyNotification;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,9 @@ public class Person extends User {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserVacancyNotification> VacanciesNotifications;
 
     public Person(PersonDataRegister personDataRegister) {
         super(personDataRegister);

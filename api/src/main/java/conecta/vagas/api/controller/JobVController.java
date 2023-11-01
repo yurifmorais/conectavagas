@@ -4,8 +4,10 @@ import conecta.vagas.api.domain.jobVacancy.*;
 import conecta.vagas.api.domain.tag.TagRepository;
 import conecta.vagas.api.domain.user.User;
 import conecta.vagas.api.domain.user.UserRepository;
+import conecta.vagas.api.events.jobVacancy.NotifyNewVacancyToCompatibleUsersEvent;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import org.jobrunr.scheduling.BackgroundJobRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -80,6 +82,8 @@ public class JobVController {
             jobV.setTags(new HashSet<>(tagRepository.findAllById(dto.tagIds())));
 
             jobVRepository.save(jobV);
+
+            BackgroundJobRequest.enqueue(new NotifyNewVacancyToCompatibleUsersEvent(jobV.getID()));
 
             var uri = uriBuilder.path("/jobvacancy/{ID}").buildAndExpand(jobV.getID()).toUri();
             return ResponseEntity.created(uri).body(new JobVListingData(jobV));
