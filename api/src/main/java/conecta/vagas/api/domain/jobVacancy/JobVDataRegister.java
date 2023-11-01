@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
+import java.util.Set;
 
 public record JobVDataRegister(
         @NotBlank
@@ -12,7 +13,6 @@ public record JobVDataRegister(
         String description,
         @NotBlank
         String location,
-        Filters filters,
         @NotNull
         Double salary,
         @NotNull
@@ -22,5 +22,11 @@ public record JobVDataRegister(
         String requirements,
         String benefits,
         @NotNull
-        Long userId) {
+        Long userId,
+        Set<Long> tagIds) {
+
+        public JobVDataRegister{
+            if(tagIds == null)
+                tagIds = Set.of();
+        }
 }

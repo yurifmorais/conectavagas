@@ -1,7 +1,6 @@
 package conecta.vagas.api.domain.user;
 
 import conecta.vagas.api.domain.company.Company;
-import conecta.vagas.api.domain.jobVacancy.JobV;
 import conecta.vagas.api.domain.person.Person;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,15 +9,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "USERS")
+@Table(name = "users")
 @EqualsAndHashCode(of = "ID")
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

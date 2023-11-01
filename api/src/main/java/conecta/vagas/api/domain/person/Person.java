@@ -1,5 +1,4 @@
 package conecta.vagas.api.domain.person;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import conecta.vagas.api.domain.Application.Application;
 import conecta.vagas.api.domain.user.User;
 import jakarta.persistence.*;

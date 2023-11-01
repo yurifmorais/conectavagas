@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "APPLICATIONS")
+@Table(name = "applications")
 @Entity
 public class Application {
 
