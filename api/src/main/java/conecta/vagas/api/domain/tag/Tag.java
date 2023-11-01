@@ -25,9 +25,6 @@ public class Tag {
     @JoinColumn(name = "parent_id")
     private Tag parent;
 
-//    @ManyToMany(mappedBy = "tags")
-//    private Set<JobV> jobVacancies;
-
     public Tag(Long id){
         ID = id;
     }
