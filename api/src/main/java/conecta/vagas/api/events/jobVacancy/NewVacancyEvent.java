@@ -4,11 +4,15 @@ import lombok.Getter;
 import org.jobrunr.jobs.lambdas.JobRequest;
 
 @Getter
-public class NotifyNewVacancyToCompatibleUsersEvent implements JobRequest {
+public class NewVacancyEvent implements JobRequest {
 
     private final Long jobVacancyId;
 
-    public NotifyNewVacancyToCompatibleUsersEvent(Long jobVacancyId){
+    protected NewVacancyEvent(){
+        this(null);
+    }
+
+    public NewVacancyEvent(Long jobVacancyId){
         this.jobVacancyId = jobVacancyId;
     }
 

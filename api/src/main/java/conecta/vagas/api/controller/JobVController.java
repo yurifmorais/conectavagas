@@ -4,7 +4,7 @@ import conecta.vagas.api.domain.jobVacancy.*;
 import conecta.vagas.api.domain.tag.TagRepository;
 import conecta.vagas.api.domain.user.User;
 import conecta.vagas.api.domain.user.UserRepository;
-import conecta.vagas.api.events.jobVacancy.NotifyNewVacancyToCompatibleUsersEvent;
+import conecta.vagas.api.events.jobVacancy.NewVacancyEvent;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.jobrunr.scheduling.BackgroundJobRequest;
@@ -83,7 +83,7 @@ public class JobVController {
 
             jobVRepository.save(jobV);
 
-            BackgroundJobRequest.enqueue(new NotifyNewVacancyToCompatibleUsersEvent(jobV.getID()));
+            BackgroundJobRequest.enqueue(new NewVacancyEvent(jobV.getID()));
 
             var uri = uriBuilder.path("/jobvacancy/{ID}").buildAndExpand(jobV.getID()).toUri();
             return ResponseEntity.created(uri).body(new JobVListingData(jobV));

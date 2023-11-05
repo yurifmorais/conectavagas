@@ -2,7 +2,7 @@ package conecta.vagas.api.domain.person;
 import conecta.vagas.api.domain.Application.Application;
 import conecta.vagas.api.domain.tag.Tag;
 import conecta.vagas.api.domain.user.User;
-import conecta.vagas.api.domain.userVacancyNotification.UserVacancyNotification;
+import conecta.vagas.api.domain.vacancyRecommendation.VacancyRecommendation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,7 +38,7 @@ public class Person extends User {
     private Set<Tag> tags;
 
     @OneToMany(mappedBy = "user")
-    private Set<UserVacancyNotification> VacanciesNotifications;
+    private Set<VacancyRecommendation> VacancyRecommendations;
 
     public Person(PersonDataRegister personDataRegister) {
         super(personDataRegister);

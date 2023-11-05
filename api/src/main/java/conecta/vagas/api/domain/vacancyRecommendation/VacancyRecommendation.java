@@ -1,19 +1,22 @@
-package conecta.vagas.api.domain.userVacancyNotification;
+package conecta.vagas.api.domain.vacancyRecommendation;
 
 import conecta.vagas.api.domain.jobVacancy.JobV;
 import conecta.vagas.api.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_vacancy_notifications")
+@Table(name = "vacancy_recommendations")
 @EqualsAndHashCode(of = "ID")
 @Entity
-public class UserVacancyNotification {
+public class VacancyRecommendation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -24,8 +27,15 @@ public class UserVacancyNotification {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public UserVacancyNotification(JobV vacancy, User user){
+    @Column(name = "recommendation_read")
+    private boolean Read;
+
+    @Column
+    private Date CreatedAt;
+
+    public VacancyRecommendation(JobV vacancy, User user){
         this.jobVacancy = vacancy;
         this.user = user;
+        this.CreatedAt = new Date();
     }
 }
