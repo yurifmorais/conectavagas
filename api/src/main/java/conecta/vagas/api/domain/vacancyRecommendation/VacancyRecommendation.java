@@ -28,14 +28,14 @@ public class VacancyRecommendation {
     private User user;
 
     @Column(name = "recommendation_read")
-    private boolean Read;
+    private boolean read;
 
     @Column
-    private Date CreatedAt;
+    private Date createdAt;
 
     public VacancyRecommendation(JobV vacancy, User user){
         this.jobVacancy = vacancy;
         this.user = user;
-        this.CreatedAt = new Date();
+        this.createdAt = new Date();
     }
 }
