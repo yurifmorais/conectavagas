@@ -1,23 +1,26 @@
 package conecta.vagas.api.controller;
-import org.springframework.data.domain.Range;
-import org.springframework.security.core.Authentication;
 
 import conecta.vagas.api.domain.jobVacancy.*;
+import conecta.vagas.api.domain.tag.TagRepository;
 import conecta.vagas.api.domain.user.User;
 import conecta.vagas.api.domain.user.UserRepository;
+import conecta.vagas.api.events.jobVacancy.NewVacancyEvent;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import org.jobrunr.scheduling.BackgroundJobRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 @RestController
@@ -29,6 +32,9 @@ public class JobVController {
     JobVRepository jobVRepository;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TagRepository tagRepository;
 
     //teste acima
     @GetMapping
@@ -73,7 +79,11 @@ public class JobVController {
             User user = userOptional.get();
 
             var jobV = new JobV(dto, user);
+            jobV.setTags(new HashSet<>(tagRepository.findAllById(dto.tagIds())));
+
             jobVRepository.save(jobV);
+
+            BackgroundJobRequest.enqueue(new NewVacancyEvent(jobV.getID()));
 
             var uri = uriBuilder.path("/jobvacancy/{ID}").buildAndExpand(jobV.getID()).toUri();
             return ResponseEntity.created(uri).body(new JobVListingData(jobV));

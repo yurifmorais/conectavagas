@@ -35,7 +35,7 @@ public class AuthenticationController {
 
             User user = (User) userRepository.findByEmail(data.email());
             //true se e empresa, false se e pessoa
-            return ResponseEntity.ok(new TokenData(user.getID(), user.getEmail(), user.getName(), user.getUserType(), token));
+            return ResponseEntity.ok(new TokenData(user.getID(), user.getEmail(), user.getName(), user.isCompany(), token));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());

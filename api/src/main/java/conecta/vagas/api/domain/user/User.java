@@ -1,8 +1,6 @@
 package conecta.vagas.api.domain.user;
 
 import conecta.vagas.api.domain.company.Company;
-import conecta.vagas.api.domain.jobVacancy.JobV;
-import conecta.vagas.api.domain.person.Person;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,15 +8,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "USERS")
+@Table(name = "users")
 @EqualsAndHashCode(of = "ID")
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -34,26 +30,18 @@ public abstract class User implements UserDetails {
     private String password;
 
     public User(UserDataRegister userDataRegister) {
-        this.name = userDataRegister.getName();
-        this.email = userDataRegister.getEmail();
-        this.password = userDataRegister.getPassword();
-        //this.jobVs = new HashSet<>();
+        this.name = userDataRegister.name;
+        this.email = userDataRegister.email;
+        this.password = userDataRegister.password;
     }
 
-    //true se e empresa, false se e pessoa
-    public Boolean getUserType() {
-        if (this instanceof Person) {
-            return false;
-        } else if (this instanceof Company) {
-            return true;
-        } else {
-            throw new IllegalArgumentException("Unknown user type");
-        }
+    public Boolean isCompany() {
+        return this instanceof Company;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (getUserType()) {
+        if (isCompany()) {
             return List.of(new SimpleGrantedAuthority("ROLE_COMPANY"));
         } else {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -63,14 +51,6 @@ public abstract class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String newPassword) {
-        this.password = newPassword;
-    }
-
-    public void setEmail(String newEmail) {
-        this.email = newEmail;
     }
 
     @Override
@@ -97,12 +77,4 @@ public abstract class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    // Adicionado setter para jobVs
-
-//    public void setJobVs(Set<JobV> jobVs) {
-//        this.jobVs.clear();
-//        if (jobVs != null) {
-//            this.jobVs.addAll(jobVs);
-//        }
-//    }
 }

@@ -29,7 +29,7 @@ public class CompanyRegisterController {
     @Transactional
     public ResponseEntity register(@RequestBody @Valid CompanyDataRegister data) {
         var user = new Company(data);
-        var encodedPassword = passwordEncoder().encode(data.getPassword());
+        var encodedPassword = passwordEncoder().encode(data.password);
 
         user.setPassword(encodedPassword);
         userRepository.save(user);

@@ -1,15 +1,18 @@
 package conecta.vagas.api.domain.person;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import conecta.vagas.api.domain.Application.Application;
+import conecta.vagas.api.domain.tag.Tag;
 import conecta.vagas.api.domain.user.User;
+import conecta.vagas.api.domain.vacancyRecommendation.VacancyRecommendation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -26,25 +29,20 @@ public class Person extends User {
     @OneToMany(mappedBy = "person")
     private Set<Application> applications;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_tags",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
+
+    @OneToMany(mappedBy = "user")
+    private Set<VacancyRecommendation> VacancyRecommendations;
+
     public Person(PersonDataRegister personDataRegister) {
         super(personDataRegister);
-        this.cpf = personDataRegister.getCPF();
-        this.surname = personDataRegister.getSurname();
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String newCpf) {
-        this.cpf = newCpf;
-    }
-
-    public Set<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(Set<Application> applications) {
-        this.applications = applications;
+        this.cpf = personDataRegister.cpf;
+        this.surname = personDataRegister.surname;
     }
 }
