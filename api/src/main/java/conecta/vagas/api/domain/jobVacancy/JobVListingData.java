@@ -1,10 +1,8 @@
 package conecta.vagas.api.domain.jobVacancy;
 
-import conecta.vagas.api.domain.tag.Tag;
+import java.util.List;
 
-import java.util.Set;
-
-public record JobVListingData(Long ID, String title, String description, String location, Double salary, String postDate, String endDate, String internshipType, String requirements, String benefits, Long user, Set<Tag> tags) {
+public record JobVListingData(Long ID, String title, String description, String location, Double salary, String postDate, String endDate, String internshipType, String requirements, String benefits, Long user, List<JobVListingDataTags> tags) {
     public JobVListingData(JobV jobV) {
         this(
                 jobV.getID(),
@@ -18,8 +16,7 @@ public record JobVListingData(Long ID, String title, String description, String 
                 jobV.getRequirements(),
                 jobV.getBenefits(),
                 jobV.getUser().getID(),
-                jobV.getTags()
+                jobV.getTags().stream().map(JobVListingDataTags::new).toList()
         );
     }
-
 }
