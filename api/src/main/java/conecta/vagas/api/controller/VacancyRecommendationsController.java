@@ -17,7 +17,7 @@ public class VacancyRecommendationsController {
         this.recommendationRepository = recommendationRepository;
     }
 
-    @PutMapping("/user/{userId}/read")
+    @PutMapping("/person/{userId}/read")
     @Transactional
     public ResponseEntity markAsRead(@PathVariable long userId, @RequestBody MarkAsReadData requestBody){
         recommendationRepository.markAsRead(userId, requestBody.recommendations());
