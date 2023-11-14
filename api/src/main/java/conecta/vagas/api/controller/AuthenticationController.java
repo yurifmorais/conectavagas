@@ -1,5 +1,7 @@
 package conecta.vagas.api.controller;
 
+import conecta.vagas.api.domain.person.Person;
+import conecta.vagas.api.domain.person.PersonRepository;
 import conecta.vagas.api.domain.user.LoginData;
 import conecta.vagas.api.domain.user.User;
 import conecta.vagas.api.domain.user.UserRepository;
@@ -34,7 +36,7 @@ public class AuthenticationController {
             var token = tokenService.generateToken((User) authentication.getPrincipal());
 
             User user = (User) userRepository.findByEmail(data.email());
-            //true se e empresa, false se e pessoa
+            //true empresa, false pessoa
             return ResponseEntity.ok(new TokenData(user.getID(), user.getEmail(), user.getName(), user.isCompany(), token));
         } catch (Exception e) {
             e.printStackTrace();

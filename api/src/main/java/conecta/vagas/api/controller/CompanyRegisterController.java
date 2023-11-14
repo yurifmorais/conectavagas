@@ -2,8 +2,6 @@ package conecta.vagas.api.controller;
 
 import conecta.vagas.api.domain.company.Company;
 import conecta.vagas.api.domain.company.CompanyDataRegister;
-import conecta.vagas.api.domain.person.Person;
-import conecta.vagas.api.domain.person.PersonDataRegister;
 import conecta.vagas.api.domain.user.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
