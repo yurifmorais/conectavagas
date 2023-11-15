@@ -27,9 +27,6 @@ public class VacancyRecommendation {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "recommendation_read")
-    private boolean read;
-
     @Column
     private Date createdAt;
 

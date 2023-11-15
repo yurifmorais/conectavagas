@@ -1,9 +1,9 @@
 package conecta.vagas.api.controller;
+import conecta.vagas.api.domain.jobVacancy.JobVListingData;
 import conecta.vagas.api.domain.person.Person;
 import conecta.vagas.api.domain.person.PersonDataRegister;
 import conecta.vagas.api.domain.person.PersonRepository;
 import conecta.vagas.api.domain.tag.TagRepository;
-import conecta.vagas.api.domain.vacancyRecommendation.RecommendationListingData;
 import conecta.vagas.api.domain.vacancyRecommendation.VacancyRecommendationRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
@@ -59,7 +59,7 @@ public class PersonController {
         if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
 
-        var recommendations = recommendationRepository.findByUserAndReadFalse(user.get(), pagination).map(RecommendationListingData::new);
+        var recommendations = recommendationRepository.findByUser(user.get(), pagination).map(vacancy -> new JobVListingData(vacancy.getJobVacancy()));
 
         return ResponseEntity.ok(recommendations);
     }
