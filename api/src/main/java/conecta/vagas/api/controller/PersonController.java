@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 @RestController
@@ -61,5 +62,20 @@ public class PersonController {
         var recommendations = recommendationRepository.findByUserAndReadFalse(user.get(), pagination).map(RecommendationListingData::new);
 
         return ResponseEntity.ok(recommendations);
+    }
+
+    @GetMapping("/person/{id}/contact")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity getPersonContact(@PathVariable long id){
+        var person = personRepository.findById(id);
+
+        if(person.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+
+        var contact = new HashMap<String, String>();
+        contact.put("linkedin", person.get().getLinkedin());
+        contact.put("github", person.get().getGithub());
+
+        return ResponseEntity.ok(contact);
     }
 }

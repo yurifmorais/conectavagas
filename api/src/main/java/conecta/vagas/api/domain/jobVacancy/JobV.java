@@ -1,5 +1,6 @@
 package conecta.vagas.api.domain.jobVacancy;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import conecta.vagas.api.domain.Application.Application;
 import conecta.vagas.api.domain.tag.Tag;
 import conecta.vagas.api.domain.user.User;
@@ -53,19 +54,27 @@ public class JobV {
     @Column(name = "benefits")
     private String benefits;
 
-//    @OneToMany(mappedBy = "jobV")
-//    private Set<Application> applications;
-
     @OneToMany(mappedBy = "jobV", cascade = CascadeType.ALL)
     private Set<Application> applications;
 
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "job_vacancies_tags",
+//            joinColumns = @JoinColumn(name = "job_vacancy_id"),
+//            inverseJoinColumns = @JoinColumn(name = "tag_id")
+//    )
+//    private Set<Tag> tags;
+
+    //teste abaixo
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "job_vacancies_tags",
             joinColumns = @JoinColumn(name = "job_vacancy_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @JsonManagedReference
     private Set<Tag> tags;
+    //teste acima
 
     public JobV(JobVDataRegister dto, User user) {
         this.title = dto.title();
@@ -78,9 +87,6 @@ public class JobV {
         this.requirements = dto.requirements();
         this.benefits = dto.benefits();
         this.user = user;
-//        if (user != null) {
-//            user.getJobVs().add(this);
-//        }
     }
 
     public void updateData(JobVDataUpdate dto) {

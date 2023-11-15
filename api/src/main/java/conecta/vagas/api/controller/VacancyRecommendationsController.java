@@ -21,7 +21,6 @@ public class VacancyRecommendationsController {
     @Transactional
     public ResponseEntity markAsRead(@PathVariable long userId, @RequestBody MarkAsReadData requestBody){
         recommendationRepository.markAsRead(userId, requestBody.recommendations());
-
         return ResponseEntity.noContent().build();
     }
 }

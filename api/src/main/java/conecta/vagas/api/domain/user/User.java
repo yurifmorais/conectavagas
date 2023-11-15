@@ -29,6 +29,7 @@ public abstract class User implements UserDetails {
     private String email;
     private String password;
 
+
     public User(UserDataRegister userDataRegister) {
         this.name = userDataRegister.name;
         this.email = userDataRegister.email;

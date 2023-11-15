@@ -6,5 +6,7 @@ CREATE TABLE users (
     cpf VARCHAR(11),
     cnpj VARCHAR(14),
     user_type BOOLEAN,
-    city  VARCHAR(255)
+    city VARCHAR(255),
+    github VARCHAR(255),
+    linkedin VARCHAR(255)
 );

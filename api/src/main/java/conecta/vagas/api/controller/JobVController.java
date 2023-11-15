@@ -20,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/myvacancies")
@@ -38,7 +37,7 @@ public class JobVController {
 
     //teste acima
     @GetMapping
-    public ResponseEntity<Page<JobVListingData>> getJobV(Pageable paginacao) {
+    public ResponseEntity<Page<JobVListingData>> getJobV(Pageable paginacao, Long[] tagIds) {
         // Obtenha o usuário atual
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -46,8 +45,12 @@ public class JobVController {
 
         // Verifica se o usuário atual é do tipo 'company'
         if (currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_COMPANY"))) {
+            var tags = tagIds != null && tagIds.length > 0
+                ? tagRepository.findAllById(Arrays.stream(tagIds).toList())
+                : tagRepository.findAll();
+
             // Se for uma empresa, mostre apenas as vagas de emprego que ela cadastrou
-            var page = jobVRepository.findByUser(currentUser, paginacao).map(JobVListingData::new);
+            var page = jobVRepository.findDistinctByUserAndTagsIn(currentUser, tags, paginacao).map(JobVListingData::new);
             return ResponseEntity.ok(page);
         } else {
             // Se for um usuário, ele pode ver todas as vagas de emprego

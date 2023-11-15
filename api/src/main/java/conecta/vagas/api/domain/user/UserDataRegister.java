@@ -7,22 +7,6 @@ public class UserDataRegister {
         @Email
         public String email;
         public String password;
-
         public UserDataRegister() {
         }
-//        public String getName() {
-//                return name;
-//        }
-//        public String getEmail() {
-//                return email;
-//        }
-//
-//        public String getPassword() {
-//                return password;
-//        }
-//
-//        public Boolean getUser_type() {
-//                return user_type;
-//        }
 }
-

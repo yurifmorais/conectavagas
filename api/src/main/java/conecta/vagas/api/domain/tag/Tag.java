@@ -1,5 +1,6 @@
 package conecta.vagas.api.domain.tag;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import conecta.vagas.api.domain.jobVacancy.JobV;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,4 +25,10 @@ public class Tag {
     @OneToOne
     @JoinColumn(name = "parent_id")
     private Tag parent;
+
+    //teste abaixo
+    @ManyToMany(mappedBy = "tags")
+    @JsonBackReference
+    private Set<JobV> jobVs;
+    //teste acima
 }

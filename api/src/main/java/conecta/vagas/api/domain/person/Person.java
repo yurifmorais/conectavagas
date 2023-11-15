@@ -40,9 +40,14 @@ public class Person extends User {
     @OneToMany(mappedBy = "user")
     private Set<VacancyRecommendation> VacancyRecommendations;
 
+    private String github;
+    private String linkedin;
+
     public Person(PersonDataRegister personDataRegister) {
         super(personDataRegister);
         this.cpf = personDataRegister.cpf;
         this.surname = personDataRegister.surname;
+        this.github = personDataRegister.github;
+        this.linkedin = personDataRegister.linkedin;
     }
 }
