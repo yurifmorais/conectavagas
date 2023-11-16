@@ -43,18 +43,18 @@ public class JobVController {
         String currentPrincipalName = authentication.getName();
         User currentUser = (User) userRepository.findByEmail(currentPrincipalName);
 
-        // Verifica se o usuário atual é do tipo 'company'
-        if (currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_COMPANY"))) {
-            var tags = tagIds != null && tagIds.length > 0
+        var tags = tagIds != null && tagIds.length > 0
                 ? tagRepository.findAllById(Arrays.stream(tagIds).toList())
                 : tagRepository.findAll();
 
+        // Verifica se o usuário atual é do tipo 'company'
+        if (currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_COMPANY"))) {
             // Se for uma empresa, mostre apenas as vagas de emprego que ela cadastrou
             var page = jobVRepository.findDistinctByUserAndTagsIn(currentUser, tags, paginacao).map(JobVListingData::new);
             return ResponseEntity.ok(page);
         } else {
             // Se for um usuário, ele pode ver todas as vagas de emprego
-            var page = jobVRepository.findAll(paginacao).map(JobVListingData::new);
+            var page = jobVRepository.findDistinctByTagsIn(tags, paginacao).map(JobVListingData::new);
             return ResponseEntity.ok(page);
         }
     }

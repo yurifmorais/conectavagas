@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface JobVRepository extends JpaRepository<JobV, Long> {
     Page<JobV> findDistinctByUserAndTagsIn(User currentUser, List<Tag> tags, Pageable paginacao);
+
+    Page<JobV> findDistinctByTagsIn(List<Tag> tags, Pageable paginacao);
 }
